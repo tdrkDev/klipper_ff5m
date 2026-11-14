@@ -5,7 +5,8 @@ import mcu
 
 from enum import Enum
 
-MCU_FLASHFORGE_RESPONSE = "flashforge_loadcell_response"
+MCU_FLASHFORGE_RESPONSE = ("flashforge_loadcell_response status=%s command=%s"
+                           " value=%i raw_response=%s")
 
 MCU_CMD_FLASHFORGE_H1 = "flashforge_loadcell_h1"
 MCU_CMD_FLASHFORGE_H2 = "flashforge_loadcell_h2 weight=%u"
@@ -72,7 +73,7 @@ class FlashforgeLoadCell:
         self.gcode = self.printer.lookup_object('gcode')
         self.name = config.get_name().split()[-1]
         self.mcu = mcu.get_printer_mcu(self.printer, config.get('mcu'))
-        self.mcu.register_response(self._handle_flashforge_response, MCU_FLASHFORGE_RESPONSE)
+        self.mcu.register_serial_response(self._handle_flashforge_response, MCU_FLASHFORGE_RESPONSE)
         self.active_command = None
         self.logger = logging.getLogger('klippy')
         self.last_weight_grams = 0
