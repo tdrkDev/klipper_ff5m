@@ -385,4 +385,7 @@ def load_config(config):
         "flashforge_loadcell",
         lambda cfg: LoadCellSensor(cfg, loadcell)
     )
+    # Mainsail's Miscellaneous panel lists "load_cell <name>" objects and
+    # shows their force_g, so expose the same status under that name too.
+    config.get_printer().add_object("load_cell bed", loadcell)
     return loadcell
